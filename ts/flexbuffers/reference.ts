@@ -129,7 +129,7 @@ export class Reference {
     } else if (this.valueType === ValueType.BLOB
       || this.valueType === ValueType.MAP
       || isAVector(this.valueType)) {
-      this._length = readUInt(this.dataView, indirect(this.dataView, this.offset, this.parentWidth) - this.byteWidth, fromByteWidth(this.byteWidth)) as number
+      this._length = Number(readUInt(this.dataView, indirect(this.dataView, this.offset, this.parentWidth) - this.byteWidth, fromByteWidth(this.byteWidth)))
     } else if (this.valueType === ValueType.NULL) {
       this._length = 0;
     } else if (this.valueType === ValueType.STRING) {

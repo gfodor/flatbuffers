@@ -67,7 +67,7 @@ function readFloat(dataView, offset, width) {
 }
 exports.readFloat = readFloat;
 function indirect(dataView, offset, width) {
-    var step = readUInt(dataView, offset, width);
+    var step = Number(readUInt(dataView, offset, width));
     return offset - step;
 }
 exports.indirect = indirect;
@@ -75,8 +75,8 @@ function keyIndex(key, dataView, offset, parentWidth, byteWidth, length) {
     var input = (0, flexbuffers_util_1.toUTF8Array)(key);
     var keysVectorOffset = indirect(dataView, offset, parentWidth) - byteWidth * 3;
     var bitWidth = (0, bit_width_util_1.fromByteWidth)(byteWidth);
-    var indirectOffset = keysVectorOffset - readUInt(dataView, keysVectorOffset, bitWidth);
-    var _byteWidth = readUInt(dataView, keysVectorOffset + byteWidth, bitWidth);
+    var indirectOffset = keysVectorOffset - (Number(readUInt(dataView, keysVectorOffset, bitWidth)));
+    var _byteWidth = Number(readUInt(dataView, keysVectorOffset + byteWidth, bitWidth));
     var low = 0;
     var high = length - 1;
     while (low <= high) {
@@ -96,7 +96,7 @@ function keyIndex(key, dataView, offset, parentWidth, byteWidth, length) {
 exports.keyIndex = keyIndex;
 function diffKeys(input, index, dataView, offset, width) {
     var keyOffset = offset + index * width;
-    var keyIndirectOffset = keyOffset - readUInt(dataView, keyOffset, (0, bit_width_util_1.fromByteWidth)(width));
+    var keyIndirectOffset = keyOffset - (Number(readUInt(dataView, keyOffset, (0, bit_width_util_1.fromByteWidth)(width))));
     for (var i = 0; i < input.length; i++) {
         var dif = input[i] - dataView.getUint8(keyIndirectOffset + i);
         if (dif !== 0) {
@@ -116,10 +116,10 @@ exports.valueForIndexWithKey = valueForIndexWithKey;
 function keyForIndex(index, dataView, offset, parentWidth, byteWidth) {
     var keysVectorOffset = indirect(dataView, offset, parentWidth) - byteWidth * 3;
     var bitWidth = (0, bit_width_util_1.fromByteWidth)(byteWidth);
-    var indirectOffset = keysVectorOffset - readUInt(dataView, keysVectorOffset, bitWidth);
+    var indirectOffset = keysVectorOffset - (Number(readUInt(dataView, keysVectorOffset, bitWidth)));
     var _byteWidth = readUInt(dataView, keysVectorOffset + byteWidth, bitWidth);
     var keyOffset = indirectOffset + index * _byteWidth;
-    var keyIndirectOffset = keyOffset - readUInt(dataView, keyOffset, (0, bit_width_util_1.fromByteWidth)(_byteWidth));
+    var keyIndirectOffset = keyOffset - (Number(readUInt(dataView, keyOffset, (0, bit_width_util_1.fromByteWidth)(_byteWidth))));
     var length = 0;
     while (dataView.getUint8(keyIndirectOffset + length) !== 0) {
         length++;

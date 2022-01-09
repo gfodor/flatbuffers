@@ -123,7 +123,7 @@ var Reference = /** @class */ (function () {
         else if (this.valueType === value_type_1.ValueType.BLOB
             || this.valueType === value_type_1.ValueType.MAP
             || (0, value_type_util_1.isAVector)(this.valueType)) {
-            this._length = (0, reference_util_1.readUInt)(this.dataView, (0, reference_util_1.indirect)(this.dataView, this.offset, this.parentWidth) - this.byteWidth, (0, bit_width_util_1.fromByteWidth)(this.byteWidth));
+            this._length = Number((0, reference_util_1.readUInt)(this.dataView, (0, reference_util_1.indirect)(this.dataView, this.offset, this.parentWidth) - this.byteWidth, (0, bit_width_util_1.fromByteWidth)(this.byteWidth)));
         }
         else if (this.valueType === value_type_1.ValueType.NULL) {
             this._length = 0;
